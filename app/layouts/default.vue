@@ -1,22 +1,28 @@
+<script setup lang="ts">
+import { SidebarProvider, SidebarInset, SidebarTrigger } from '~/components/ui/sidebar'
+</script>
+
 <template>
-  <div class="min-h-screen flex flex-col">
-    <header class="border-b">
-      <div class="container mx-auto px-4 py-4 flex items-center justify-between">
-        <NuxtLink to="/" class="text-xl font-bold">
+  <SidebarProvider>
+    <AppSidebar />
+    <SidebarInset>
+      <header class="flex h-14 shrink-0 items-center gap-2 border-b px-4">
+        <SidebarTrigger class="-ml-1" />
+        <div class="h-4 w-px bg-border" />
+        <NuxtLink to="/" class="font-semibold">
           Mini-Internet
         </NuxtLink>
-<MainNav />
-      </div>
-    </header>
+      </header>
 
-    <main class="flex-1">
-      <slot />
-    </main>
+      <main class="flex-1 p-4">
+        <slot />
+      </main>
 
-    <footer class="border-t">
-      <div class="container mx-auto px-4 py-4 text-center text-sm text-muted-foreground">
-        Open Educational Resource
-      </div>
-    </footer>
-  </div>
+      <footer class="border-t">
+        <div class="p-4 text-center text-sm text-muted-foreground">
+          Open Educational Resource
+        </div>
+      </footer>
+    </SidebarInset>
+  </SidebarProvider>
 </template>
