@@ -111,8 +111,8 @@ function closeSidebarOnMobile() {
         </SidebarGroupContent>
       </SidebarGroup>
 
-      <!-- Section groups -->
-      <SidebarGroup v-for="section in sections" :key="section.path">
+      <!-- Section groups - hidden when collapsed -->
+      <SidebarGroup v-for="section in sections" :key="section.path" class="group-data-[collapsible=icon]:hidden">
         <SidebarGroupLabel>{{ section.name }}</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>

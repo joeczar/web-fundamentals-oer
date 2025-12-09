@@ -44,11 +44,12 @@ onUnmounted(() => {
   <div class="theme-switcher relative">
     <button
       type="button"
-      class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+      data-sidebar="menu-button"
+      class="peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-hidden ring-sidebar-ring transition-[width,height,padding] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0"
       @click="isOpen = !isOpen"
     >
       <Palette class="size-4" />
-      <span class="hidden sm:inline">Theme</span>
+      <span>Theme</span>
     </button>
 
     <Transition
