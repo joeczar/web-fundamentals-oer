@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { data: pages } = await useAsyncData('internet-pages', () => {
-  return queryCollection('content').where('_path', 'LIKE', '/internet/%').all()
+  return queryCollection('content').where('path', 'LIKE', '/internet/%').all()
 })
 </script>
 

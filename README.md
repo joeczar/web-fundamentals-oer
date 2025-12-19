@@ -1,75 +1,76 @@
-# Nuxt Content Starter
+# Mini-Internet OER
 
-Look at the [Nuxt Content documentation](https://content.nuxt.com) to learn more.
+An Open Educational Resource (OER) for learning internet fundamentals. Built with Nuxt 4 and designed for interactive, content-rich educational experiences.
+
+## Features
+
+- **Interactive Quizzes** - Multiple-choice and true/false questions with instant feedback
+- **Mermaid Diagrams** - Flowcharts, sequence diagrams, and visualizations with dark mode support
+- **Code Highlighting** - Syntax highlighting for JS, TS, Python, Bash, HTML, CSS, and more
+- **Step-by-Step Tutorials** - Structured procedural instructions
+- **Dark Mode** - Full theme support with oklch color system
+
+## Tech Stack
+
+- **Nuxt 4** - Vue 3 meta-framework
+- **Nuxt Content** - Markdown-based CMS with MDC components
+- **Tailwind CSS 4** - Utility-first styling
+- **shadcn-vue** - Accessible UI components
+- **Mermaid** - Diagram rendering
+
+## Content Structure
+
+```
+content/
+├── index.md              # Home page
+├── about.md              # About page
+└── internet/             # Course modules
+    ├── 1.how-the-internet-works.md
+    ├── 2.dns.md
+    ├── 3.domain-names.md
+    ├── 4.http.md
+    ├── 5.hosting.md
+    └── 6.browsers.md
+```
 
 ## Setup
 
-Make sure to install dependencies:
-
 ```bash
-# npm
-npm install
-
-# pnpm
 pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+## Development
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
 pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
+
+Starts at `http://localhost:3000`
 
 ## Production
 
-Build the application for production:
+Build for production:
 
 ```bash
-# npm
-npm run build
-
-# pnpm
 pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
 ```
 
-Locally preview production build:
+Preview production build:
 
 ```bash
-# npm
-npm run preview
-
-# pnpm
 pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+Generate static site:
+
+```bash
+pnpm generate
+```
+
+## Deployment
+
+Configured for Netlify. The build outputs to `.output/public`.
+
+## License
+
+Open Educational Resource - see content for specific licensing.
