@@ -1,6 +1,7 @@
 ---
 title: Content Kitchen Sink
 description: A demonstration of all available content components and formatting options
+navigation: false
 ---
 
 # Content Kitchen Sink
