@@ -1,4 +1,4 @@
-export type ThemeName = 'default' | 'neon-matrix' | 'cyber-magenta' | 'digital-frost'
+export type ThemeName = 'default' | 'neuromancer' | 'neon-matrix' | 'cyber-magenta' | 'digital-frost'
 export type ColorMode = 'light' | 'dark' | 'system'
 
 interface ThemeConfig {
@@ -9,6 +9,12 @@ interface ThemeConfig {
 }
 
 export const themes: ThemeConfig[] = [
+  {
+    name: 'Neuromancer',
+    value: 'neuromancer',
+    primaryColor: 'oklch(0.82 0.30 65)',
+    description: 'Amber phosphor. Gibson\'s matrix.',
+  },
   {
     name: 'Default',
     value: 'default',
@@ -39,7 +45,7 @@ const THEME_STORAGE_KEY = 'mini-internet-theme'
 const MODE_STORAGE_KEY = 'mini-internet-color-mode'
 
 export function useTheme() {
-  const theme = useState<ThemeName>('theme', () => 'default')
+  const theme = useState<ThemeName>('theme', () => 'neuromancer')
   const colorMode = useState<ColorMode>('colorMode', () => 'system')
   const resolvedMode = useState<'light' | 'dark'>('resolvedMode', () => 'light')
 

@@ -1,9 +1,85 @@
 /*
- * Cyberpunk Themes for Mini-Internet
+ * Cyberpunk Themes for web-fundamentals-oer
  *
  * Three distinct themes optimized for dark mode with light mode accessibility variants.
  * Uses OKLCH color space for perceptual uniformity.
  */
+
+/* ============================================
+   THEME 0: NEUROMANCER
+   Amber phosphor on near-black, icy blue ICE accents.
+   William Gibson's cyberspace, 1984.
+   ============================================ */
+
+[data-theme="neuromancer"] {
+  --radius: 0;
+  --background: oklch(0.96 0.014 85);
+  --foreground: oklch(0.12 0.025 65);
+  --card: oklch(0.93 0.012 85);
+  --card-foreground: oklch(0.12 0.025 65);
+  --popover: oklch(0.96 0.014 85);
+  --popover-foreground: oklch(0.12 0.025 65);
+  --primary: oklch(0.55 0.20 65);
+  --primary-foreground: oklch(0.96 0.014 85);
+  --secondary: oklch(0.88 0.010 85);
+  --secondary-foreground: oklch(0.12 0.025 65);
+  --muted: oklch(0.90 0.010 85);
+  --muted-foreground: oklch(0.45 0.010 65);
+  --accent: oklch(0.48 0.14 220);
+  --accent-foreground: oklch(0.96 0.014 85);
+  --destructive: oklch(0.52 0.22 25);
+  --border: oklch(0.30 0.06 65);
+  --input: oklch(0.91 0.010 85);
+  --ring: oklch(0.55 0.20 65);
+  --chart-1: oklch(0.55 0.20 65);
+  --chart-2: oklch(0.48 0.14 220);
+  --chart-3: oklch(0.50 0.18 145);
+  --chart-4: oklch(0.52 0.22 25);
+  --chart-5: oklch(0.52 0.18 300);
+  --sidebar: oklch(0.93 0.012 85);
+  --sidebar-foreground: oklch(0.12 0.025 65);
+  --sidebar-primary: oklch(0.55 0.20 65);
+  --sidebar-primary-foreground: oklch(0.96 0.014 85);
+  --sidebar-accent: oklch(0.88 0.010 85);
+  --sidebar-accent-foreground: oklch(0.12 0.025 65);
+  --sidebar-border: oklch(0.30 0.06 65);
+  --sidebar-ring: oklch(0.55 0.20 65);
+}
+
+[data-theme="neuromancer"].dark,
+.dark[data-theme="neuromancer"] {
+  --background: oklch(0.06 0.008 85);
+  --foreground: oklch(0.88 0.25 65);
+  --card: oklch(0.10 0.012 85);
+  --card-foreground: oklch(0.88 0.25 65);
+  --popover: oklch(0.09 0.010 85);
+  --popover-foreground: oklch(0.88 0.25 65);
+  --primary: oklch(0.82 0.30 65);
+  --primary-foreground: oklch(0.06 0.008 85);
+  --secondary: oklch(0.15 0.04 85);
+  --secondary-foreground: oklch(0.88 0.25 65);
+  --muted: oklch(0.14 0.03 85);
+  --muted-foreground: oklch(0.50 0.12 65);
+  --accent: oklch(0.68 0.20 220);
+  --accent-foreground: oklch(0.06 0.008 85);
+  --destructive: oklch(0.62 0.22 25);
+  --border: oklch(0.28 0.12 65 / 55%);
+  --input: oklch(0.16 0.04 85 / 80%);
+  --ring: oklch(0.82 0.30 65);
+  --chart-1: oklch(0.82 0.30 65);
+  --chart-2: oklch(0.68 0.20 220);
+  --chart-3: oklch(0.68 0.22 145);
+  --chart-4: oklch(0.65 0.22 25);
+  --chart-5: oklch(0.62 0.20 300);
+  --sidebar: oklch(0.09 0.010 85);
+  --sidebar-foreground: oklch(0.88 0.25 65);
+  --sidebar-primary: oklch(0.82 0.30 65);
+  --sidebar-primary-foreground: oklch(0.06 0.008 85);
+  --sidebar-accent: oklch(0.15 0.04 85);
+  --sidebar-accent-foreground: oklch(0.88 0.25 65);
+  --sidebar-border: oklch(0.28 0.12 65 / 40%);
+  --sidebar-ring: oklch(0.82 0.30 65);
+}
 
 /* ============================================
    THEME 1: NEON MATRIX
