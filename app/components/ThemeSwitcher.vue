@@ -5,6 +5,8 @@ import { useTheme, type ThemeName, type ColorMode } from '~/composables/useTheme
 const { theme, colorMode, resolvedMode, themes, setTheme, setColorMode, initTheme } = useTheme()
 
 const isOpen = ref(false)
+const buttonRef = ref<HTMLButtonElement>()
+const popoverStyle = ref<Record<string, string>>({})
 
 onMounted(() => {
   initTheme()
@@ -16,6 +18,19 @@ const colorModeOptions: { value: ColorMode; icon: typeof Sun; label: string }[] 
   { value: 'system', icon: Monitor, label: 'System' },
 ]
 
+function togglePopover() {
+  isOpen.value = !isOpen.value
+  if (isOpen.value && buttonRef.value) {
+    const rect = buttonRef.value.getBoundingClientRect()
+    popoverStyle.value = {
+      position: 'fixed',
+      left: `${rect.left}px`,
+      bottom: `${window.innerHeight - rect.top + 8}px`,
+      zIndex: '100',
+    }
+  }
+}
+
 function selectTheme(value: ThemeName) {
   setTheme(value)
 }
@@ -26,7 +41,7 @@ function selectColorMode(mode: ColorMode) {
 
 function handleClickOutside(event: MouseEvent) {
   const target = event.target as HTMLElement
-  if (!target.closest('.theme-switcher')) {
+  if (!target.closest('.theme-switcher') && !target.closest('.theme-popover')) {
     isOpen.value = false
   }
 }
@@ -41,86 +56,92 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="theme-switcher relative">
+  <div class="theme-switcher">
     <button
+      ref="buttonRef"
       type="button"
       data-sidebar="menu-button"
       class="peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-hidden ring-sidebar-ring transition-[width,height,padding] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0"
-      @click="isOpen = !isOpen"
+      @click="togglePopover"
     >
       <Palette class="size-4" />
       <span>Theme</span>
     </button>
 
-    <Transition
-      enter-active-class="transition duration-100 ease-out"
-      enter-from-class="transform scale-95 opacity-0"
-      enter-to-class="transform scale-100 opacity-100"
-      leave-active-class="transition duration-75 ease-in"
-      leave-from-class="transform scale-100 opacity-100"
-      leave-to-class="transform scale-95 opacity-0"
-    >
-      <div
-        v-if="isOpen"
-        class="absolute right-0 top-full z-50 mt-2 w-64 rounded-lg border bg-popover p-3 shadow-lg"
+    <Teleport to="body">
+      <Transition
+        enter-active-class="transition duration-100 ease-out"
+        enter-from-class="transform scale-95 opacity-0"
+        enter-to-class="transform scale-100 opacity-100"
+        leave-active-class="transition duration-75 ease-in"
+        leave-from-class="transform scale-100 opacity-100"
+        leave-to-class="transform scale-95 opacity-0"
       >
-        <!-- Color Mode -->
-        <div class="mb-3">
-          <div class="mb-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
-            Color Mode
+        <div
+          v-if="isOpen"
+          class="theme-popover w-64 rounded-lg border bg-popover p-3 shadow-lg"
+          :style="popoverStyle"
+        >
+          <!-- Color Mode -->
+          <div class="mb-3">
+            <div class="mb-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+              Color Mode
+            </div>
+            <div class="flex gap-1">
+              <button
+                v-for="option in colorModeOptions"
+                :key="option.value"
+                type="button"
+                class="flex flex-1 items-center justify-center gap-1.5 rounded-md px-2 py-1.5 text-sm transition-colors"
+                :class="[
+                  colorMode === option.value
+                    ? 'bg-primary text-primary-foreground'
+                    : 'hover:bg-accent hover:text-accent-foreground'
+                ]"
+                @click="selectColorMode(option.value)"
+              >
+                <component :is="option.icon" class="size-3.5" />
+                <span class="text-xs">{{ option.label }}</span>
+              </button>
+            </div>
           </div>
-          <div class="flex gap-1">
-            <button
-              v-for="option in colorModeOptions"
-              :key="option.value"
-              type="button"
-              class="flex flex-1 items-center justify-center gap-1.5 rounded-md px-2 py-1.5 text-sm transition-colors"
-              :class="[
-                colorMode === option.value
-                  ? 'bg-primary text-primary-foreground'
-                  : 'hover:bg-accent hover:text-accent-foreground'
-              ]"
-              @click="selectColorMode(option.value)"
-            >
-              <component :is="option.icon" class="size-3.5" />
-              <span class="text-xs">{{ option.label }}</span>
-            </button>
-          </div>
-        </div>
 
-        <div class="my-2 h-px bg-border" />
+          <template v-if="resolvedMode === 'dark'">
+          <div class="my-2 h-px bg-border" />
 
-        <!-- Theme Selection -->
-        <div>
-          <div class="mb-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
-            Theme
+          <!-- Theme Selection (dark mode only) -->
+          <div>
+            <div class="mb-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+              Theme
+            </div>
+            <div class="space-y-1">
+              <button
+                v-for="t in themes"
+                :key="t.value"
+                type="button"
+                class="flex w-full items-center gap-3 rounded-md px-2 py-2 text-left transition-colors"
+                :class="[
+                  theme === t.value
+                    ? 'bg-accent text-accent-foreground'
+                    : 'hover:bg-accent/50 hover:text-accent-foreground'
+                ]"
+                @click="selectTheme(t.value)"
+              >
+                <div
+                  class="size-4 rounded-full border border-border/50 shadow-sm"
+                  :style="{ backgroundColor: t.primaryColor }"
+                />
+                <div class="flex-1">
+                  <div class="text-sm font-medium">{{ t.name }}</div>
+                  <div class="text-xs text-muted-foreground">{{ t.description }}</div>
+                </div>
+                <Check v-if="theme === t.value" class="size-4 text-primary" />
+              </button>
+            </div>
           </div>
-          <div class="space-y-1">
-            <button
-              v-for="t in themes"
-              :key="t.value"
-              type="button"
-              class="flex w-full items-center gap-3 rounded-md px-2 py-2 text-left transition-colors"
-              :class="[
-                theme === t.value
-                  ? 'bg-accent text-accent-foreground'
-                  : 'hover:bg-accent/50 hover:text-accent-foreground'
-              ]"
-              @click="selectTheme(t.value)"
-            >
-              <div
-                class="size-4 rounded-full border border-border/50 shadow-sm"
-                :style="{ backgroundColor: t.primaryColor }"
-              />
-              <div class="flex-1">
-                <div class="text-sm font-medium">{{ t.name }}</div>
-                <div class="text-xs text-muted-foreground">{{ t.description }}</div>
-              </div>
-              <Check v-if="theme === t.value" class="size-4 text-primary" />
-            </button>
-          </div>
+          </template>
         </div>
-      </div>
-    </Transition>
+      </Transition>
+    </Teleport>
   </div>
 </template>
