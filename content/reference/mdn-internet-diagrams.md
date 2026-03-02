@@ -1,6 +1,7 @@
 ---
 title: MDN Internet Diagrams Reference
 description: Reference images from MDN's "How does the Internet work?" article for educational content development
+navigation: false
 ---
 
 # MDN Internet Diagrams Reference

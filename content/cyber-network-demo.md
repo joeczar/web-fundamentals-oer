@@ -1,6 +1,7 @@
 ---
 title: Cyberpunk Network Visualizations
 description: Interactive animated diagrams showing how the internet works
+navigation: false
 ---
 
 # Cyberpunk Network Visualizations
