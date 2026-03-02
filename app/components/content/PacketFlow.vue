@@ -24,7 +24,7 @@ const nodes = [
   { x: 100, y: 200, label: 'Client', icon: 'laptop' },
   { x: 300, y: 200, label: 'Router', icon: 'router' },
   { x: 500, y: 200, label: 'Server', icon: 'server' },
-]
+] as const
 
 const speedMultiplier = {
   slow: 0.5,

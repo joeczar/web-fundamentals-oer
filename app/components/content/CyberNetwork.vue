@@ -112,8 +112,11 @@ function interpolatePosition(
 function updatePackets(deltaTime: number) {
   activePackets.value.forEach(packet => {
     const cfg = config.value
-    const fromNode = getNodeById(cfg, packet.path[packet.pathIndex])
-    const toNode = getNodeById(cfg, packet.path[packet.pathIndex + 1])
+    const fromId = packet.path[packet.pathIndex]
+    const toId = packet.path[packet.pathIndex + 1]
+    if (!fromId || !toId) return
+    const fromNode = getNodeById(cfg, fromId)
+    const toNode = getNodeById(cfg, toId)
 
     if (!fromNode || !toNode) return
 
@@ -178,9 +181,11 @@ function draw(ctx: CanvasRenderingContext2D, time: number, deltaTime: number) {
     updatePackets(deltaTime)
 
     activePackets.value.forEach(packet => {
-      if (packet.pathIndex < packet.path.length - 1) {
-        const fromNode = getNodeById(cfg, packet.path[packet.pathIndex])
-        const toNode = getNodeById(cfg, packet.path[packet.pathIndex + 1])
+      const fromId = packet.path[packet.pathIndex]
+      const toId = packet.path[packet.pathIndex + 1]
+      if (packet.pathIndex < packet.path.length - 1 && fromId && toId) {
+        const fromNode = getNodeById(cfg, fromId)
+        const toNode = getNodeById(cfg, toId)
         if (fromNode && toNode) {
           const pos = interpolatePosition(fromNode, toNode, packet.progress)
           drawPacket(ctx, pos.x, pos.y, packet.color, packet.trail)

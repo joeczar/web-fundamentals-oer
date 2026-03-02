@@ -55,9 +55,12 @@ function meshConnections(nodeIds: string[]): Connection[] {
   const connections: Connection[] = []
   for (let i = 0; i < nodeIds.length; i++) {
     for (let j = i + 1; j < nodeIds.length; j++) {
+      const from = nodeIds[i]
+      const to = nodeIds[j]
+      if (!from || !to) continue
       connections.push({
-        from: nodeIds[i],
-        to: nodeIds[j],
+        from,
+        to,
         color: cyberColors.warning // Red-ish to show problem
       })
     }
@@ -94,7 +97,7 @@ export const diagrams: Record<DiagramType, DiagramConfig> = {
       title: 'Mesh Network',
       description: '5 computers = 10 cables needed!',
       nodes: positions.map((pos, i) => ({
-        id: nodeIds[i],
+        id: nodeIds[i]!,
         type: 'computer' as NodeType,
         x: pos.x,
         y: pos.y,
