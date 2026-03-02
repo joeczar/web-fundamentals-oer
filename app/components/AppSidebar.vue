@@ -17,41 +17,20 @@ import {
 } from '~/components/ui/sidebar'
 import { Home, Globe, FileText } from 'lucide-vue-next'
 
-const { data: pages } = await useAsyncData('navigation', () =>
-  queryCollection('content').all()
+const { data: navigation } = await useAsyncData('navigation', () =>
+  queryCollectionNavigation('content')
 )
 
 const { toggleSidebar } = useSidebar()
 
 const topLevelPages = computed(() => {
-  if (!pages.value) return []
-  return pages.value.filter(page => {
-    const pathParts = page.path.split('/').filter(Boolean)
-    return pathParts.length <= 1 && page.path !== '/'
-  })
+  if (!navigation.value) return []
+  return navigation.value.filter(item => !item.children)
 })
 
 const sections = computed(() => {
-  if (!pages.value) return []
-
-  const sectionMap = new Map<string, { name: string; path: string; pages: typeof pages.value }>()
-
-  pages.value.forEach(page => {
-    const pathParts = page.path.split('/').filter(Boolean)
-    if (pathParts.length > 1) {
-      const sectionSlug = pathParts[0]
-      if (!sectionMap.has(sectionSlug)) {
-        sectionMap.set(sectionSlug, {
-          name: sectionSlug.charAt(0).toUpperCase() + sectionSlug.slice(1),
-          path: `/${sectionSlug}`,
-          pages: []
-        })
-      }
-      sectionMap.get(sectionSlug)!.pages.push(page)
-    }
-  })
-
-  return Array.from(sectionMap.values())
+  if (!navigation.value) return []
+  return navigation.value.filter(item => item.children?.length)
 })
 
 const route = useRoute()
@@ -103,7 +82,7 @@ function closeSidebarOnMobile() {
               <SidebarMenuButton as-child :is-active="route.path === page.path">
                 <NuxtLink :to="page.path" @click="closeSidebarOnMobile">
                   <FileText class="size-4" />
-                  <span>{{ page.title || page.path.slice(1) }}</span>
+                  <span>{{ page.title }}</span>
                 </NuxtLink>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -113,13 +92,13 @@ function closeSidebarOnMobile() {
 
       <!-- Section groups - hidden when collapsed -->
       <SidebarGroup v-for="section in sections" :key="section.path" class="group-data-[collapsible=icon]:hidden">
-        <SidebarGroupLabel>{{ section.name }}</SidebarGroupLabel>
+        <SidebarGroupLabel>{{ section.title }}</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
-            <SidebarMenuItem v-for="page in section.pages" :key="page.path">
+            <SidebarMenuItem v-for="page in section.children" :key="page.path">
               <SidebarMenuButton as-child :is-active="route.path === page.path">
                 <NuxtLink :to="page.path" @click="closeSidebarOnMobile">
-                  <span>{{ page.title || page.path.split('/').pop() }}</span>
+                  <span>{{ page.title }}</span>
                 </NuxtLink>
               </SidebarMenuButton>
             </SidebarMenuItem>
